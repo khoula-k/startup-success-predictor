@@ -1,5 +1,6 @@
-# Base image
-FROM python:3.9-slim-bookworm
+# **************************************
+# Stage 1: The Builder
+FROM python:3.9-slim-bookworm AS builder
 
 WORKDIR /app
 
@@ -9,12 +10,17 @@ RUN pip install uv
 # Copy dependency files
 COPY pyproject.toml .
 
-RUN uv lock
-
 # Install dependencies
 RUN uv sync --no-install-project
 
-# new virtual environment to the PATH
+
+# **************************************
+# Stage 2: The Final Image
+FROM python:3.9-slim-bookworm
+
+WORKDIR /app
+
+COPY --from=builder /app/.venv /app/.venv
 ENV PATH="/app/.venv/bin:$PATH"
 
 # Copy the rest of the application

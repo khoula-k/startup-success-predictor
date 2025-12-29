@@ -2,7 +2,7 @@ FROM python:3.11-slim-bookworm
 
 WORKDIR /app
 
-RUN pip install streamlit requests pandas
+RUN pip install --no-cache-dir streamlit requests pandas
 
 COPY app.py .
 
