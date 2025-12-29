@@ -8,7 +8,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report
 
 # --- Configuration ---
-DATA_FILE = '../data/startup_data_processed.csv'  # Assumed file name for the cleaned dataset
+DATA_FILE = '../data/startup_data_processed.csv'
 MODEL_OUTPUT_FILE = '../model/random_forest_model.joblib'
 TARGET_COLUMN = 'labels'
 
@@ -32,8 +32,8 @@ def train_and_save_model(df):
     # Define Features (X) and Target (y)
     # The columns to be dropped are derived directly from your original snippet.
     columns_to_drop = [
-        TARGET_COLUMN, 'founded_at', 'name', 'has_roundA', 'has_roundB', 
-        'has_roundC', 'has_VC', 'has_angel',
+        TARGET_COLUMN, 'zip_code' ,'founded_at', 'first_funding_at', 'last_funding_at','name', 'has_roundA', 'has_roundB', 
+        'has_roundC','has_roundD', 'has_VC', 'has_angel',
     ]
     
     # Ensure only existing columns are dropped
@@ -82,9 +82,13 @@ def train_and_save_model(df):
     rf_pipeline.fit(X_train, y_train)
     print("Training complete.")
 
+
     # Evaluate the model
     y_pred = rf_pipeline.predict(X_test)
     print("\n=========== Random Forest Classification Report ===========")
+    print("Test data:")
+    print(X_test.head())
+    print("=========================================================")
     print(classification_report(y_test, y_pred))
     print("========================================================")
 
